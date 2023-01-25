@@ -1,7 +1,7 @@
 package com.example.EmployeeManagementSystems.services;
 
 import com.example.EmployeeManagementSystems.entities.Employee;
-import com.example.EmployeeManagementSystems.exceptions.UserNotFoundExceprion;
+import com.example.EmployeeManagementSystems.exceptions.UserNotFoundException;
 import com.example.EmployeeManagementSystems.repositories.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee updateEmployee(Employee employee) {
+    public Employee updateEmployee(Employee employee, Long id) {
+        Employee employee1=employeeRepository.findById(id).orElseThrow(()->new UserNotFoundException("User with the id "+id+" not found"));
         return employeeRepository.save(employee);
     }
 
@@ -38,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(()-> new UserNotFoundExceprion("User with Id "+id+" was not found"));
+        return employeeRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User with Id "+id+" was not found"));
     }
 
     @Override

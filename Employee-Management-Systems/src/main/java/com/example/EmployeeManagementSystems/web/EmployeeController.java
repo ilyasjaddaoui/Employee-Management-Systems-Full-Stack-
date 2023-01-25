@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class EmployeeController {
     private EmployeeService employeeService;
 
@@ -25,7 +26,10 @@ public class EmployeeController {
 
     @PutMapping("/employees/add/{id}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody @NotNull Employee employee, @PathVariable("id") Long id){
-        employee.setId(id);
+        employee.setFirstName(employee.getFirstName());
+        employee.setLastName(employee.getLastName());
+        employee.setEmail(employee.getEmail());
+        Employee update=employeeService.updateEmployee(employee, id);
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
